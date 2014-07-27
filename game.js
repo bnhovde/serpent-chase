@@ -17,20 +17,12 @@ var socket,		// Socket controller
 ** GAME INITIALISATION
 **************************************************/
 function init() {
+
 	// Create an empty array to store players
 	players = [];
 
 	// Set up Socket.IO to listen on port 8000
 	socket = io.listen(8000);
-
-	// Configure Socket.IO
-	socket.configure(function() {
-		// Only use WebSockets
-		socket.set("transports", ["websocket"]);
-
-		// Restrict log output
-		socket.set("log level", 2);
-	});
 
 	// Start listening for events
 	setEventHandlers();
@@ -47,7 +39,7 @@ var setEventHandlers = function() {
 
 // New socket connection
 function onSocketConnection(client) {
-	util.log("New player has connected: "+client.id);
+	console.log("New player has connected: "+client.id);
 
 	// Listen for client disconnected
 	client.on("disconnect", onClientDisconnect);
@@ -61,13 +53,13 @@ function onSocketConnection(client) {
 
 // Socket client has disconnected
 function onClientDisconnect() {
-	util.log("Player has disconnected: "+this.id);
+	console.log("Player has disconnected: "+this.id);
 
 	var removePlayer = playerById(this.id);
 
 	// Player not found
 	if (!removePlayer) {
-		util.log("Player not found: "+this.id);
+		console.log("Player not found: "+this.id);
 		return;
 	};
 
@@ -80,18 +72,21 @@ function onClientDisconnect() {
 
 // New player has joined
 function onNewPlayer(data) {
+
+	console.log(data);
+	
 	// Create a new player
 	var newPlayer = new Player(data.x, data.y);
 	newPlayer.id = this.id;
 
 	// Broadcast new player to connected socket clients
-	this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY()});
+	this.broadcast.emit("new player", {id: newPlayer.id, x: newPlayer.getX(), y: newPlayer.getY(), color: newPlayer.getCol()});
 
 	// Send existing players to the new player
 	var i, existingPlayer;
 	for (i = 0; i < players.length; i++) {
 		existingPlayer = players[i];
-		this.emit("new player", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY()});
+		this.emit("new player", {id: existingPlayer.id, x: existingPlayer.getX(), y: existingPlayer.getY(), color: existingPlayer.getCol()});
 	};
 		
 	// Add new player to the players array
@@ -105,7 +100,7 @@ function onMovePlayer(data) {
 
 	// Player not found
 	if (!movePlayer) {
-		util.log("Player not found: "+this.id);
+		console.log("Player not found: "+this.id);
 		return;
 	};
 
@@ -131,7 +126,6 @@ function playerById(id) {
 	
 	return false;
 };
-
 
 /**************************************************
 ** RUN THE GAME

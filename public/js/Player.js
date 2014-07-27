@@ -1,10 +1,13 @@
+
 /**************************************************
 ** GAME PLAYER CLASS
 **************************************************/
-var Player = function(startX, startY) {
+
+var Player = function(startX, startY, col) {
 	var x = startX,
 		y = startY,
 		id,
+		color = col,
 		moveAmount = 2;
 	
 	// Getters and setters
@@ -49,6 +52,7 @@ var Player = function(startX, startY) {
 
 	// Draw player
 	var draw = function(ctx) {
+		ctx.fillStyle = color;
 		ctx.fillRect(x-5, y-5, 10, 10);
 	};
 

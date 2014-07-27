@@ -1,6 +1,8 @@
+
 /**************************************************
 ** GAME VARIABLES
 **************************************************/
+
 var canvas,			// Canvas DOM element
 	ctx,			// Canvas rendering context
 	keys,			// Keyboard input
@@ -12,6 +14,7 @@ var canvas,			// Canvas DOM element
 /**************************************************
 ** GAME INITIALISATION
 **************************************************/
+
 function init() {
 	// Declare the canvas and rendering context
 	canvas = document.getElementById("gameCanvas");
@@ -30,11 +33,13 @@ function init() {
 	var startX = Math.round(Math.random()*(canvas.width-5)),
 		startY = Math.round(Math.random()*(canvas.height-5));
 
+	var randomCol = getRandomColor();
+
 	// Initialise the local player
-	localPlayer = new Player(startX, startY);
+	localPlayer = new Player(startX, startY, randomCol);
 
 	// Initialise socket connection
-	socket = io.connect("http://localhost", {port: 8000, transports: ["websocket"]});
+	socket = io.connect("http://10.0.0.14:8000");
 
 	// Initialise remote players array
 	remotePlayers = [];
@@ -47,6 +52,7 @@ function init() {
 /**************************************************
 ** GAME EVENT HANDLERS
 **************************************************/
+
 var setEventHandlers = function() {
 	// Keyboard
 	window.addEventListener("keydown", onKeydown, false);
@@ -110,7 +116,7 @@ function onNewPlayer(data) {
 	console.log("New player connected: "+data.id);
 
 	// Initialise the new player
-	var newPlayer = new Player(data.x, data.y);
+	var newPlayer = new Player(data.x, data.y, data.color);
 	newPlayer.id = data.id;
 
 	// Add new player to the remote players array
@@ -150,6 +156,7 @@ function onRemovePlayer(data) {
 /**************************************************
 ** GAME ANIMATION LOOP
 **************************************************/
+
 function animate() {
 	update();
 	draw();
@@ -162,6 +169,7 @@ function animate() {
 /**************************************************
 ** GAME UPDATE
 **************************************************/
+
 function update() {
 	// Update local player and check for change
 	if (localPlayer.update(keys)) {
@@ -174,6 +182,7 @@ function update() {
 /**************************************************
 ** GAME DRAW
 **************************************************/
+
 function draw() {
 	// Wipe the canvas clean
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -192,6 +201,7 @@ function draw() {
 /**************************************************
 ** GAME HELPER FUNCTIONS
 **************************************************/
+
 // Find player by ID
 function playerById(id) {
 	var i;
@@ -202,3 +212,12 @@ function playerById(id) {
 	
 	return false;
 };
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}

@@ -1,0 +1,29 @@
+{
+  "name": "snakesnake",
+  "version": "0.0.0",
+  "description": "multiplayer snake game running on node.js and socket.io",
+  "main": "Player.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bnhovde/snakesnake.git"
+  },
+  "keywords": [
+    "node",
+    "game",
+    "nodejs",
+    "snake",
+    "socket.io"
+  ],
+  "author": "B Hovde",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bnhovde/snakesnake/issues"
+  },
+  "homepage": "https://github.com/bnhovde/snakesnake",
+  "dependencies": {
+    "socket.io": "~1.0.6"
+  }
+}
