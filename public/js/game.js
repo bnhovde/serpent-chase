@@ -103,7 +103,7 @@ function onSocketConnected() {
 	console.log("Connected to socket server");
 
 	// Send local player data to the game server
-	socket.emit("new player", {x: localPlayer.getX(), y: localPlayer.getY()});
+	socket.emit("new player", {x: localPlayer.getX(), y: localPlayer.getY(), color: localPlayer.getCol()});
 };
 
 // Socket disconnected

@@ -19,6 +19,10 @@ var Player = function(startX, startY, col) {
 		return y;
 	};
 
+	var getCol = function() {
+		return color;
+	};
+
 	var setX = function(newX) {
 		x = newX;
 	};
@@ -60,6 +64,7 @@ var Player = function(startX, startY, col) {
 	return {
 		getX: getX,
 		getY: getY,
+		getCol: getCol,
 		setX: setX,
 		setY: setY,
 		update: update,
