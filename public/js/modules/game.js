@@ -23,10 +23,11 @@ function (io, Keys, Player) {
 
 	// Setup base variables
 	var settings = s = {
-		canvasWidth: 	400, 	// Width in px
-		canvasHeight: 	400,	// Height in px
-		gridSquares: 	100,	// Number of units in grid
-		canvasUnit: 	0		// One canvas unit in px (calculated bwith gridsize)
+		serverIP: 		'10.0.0.14',	// IP address of node server
+		canvasWidth: 	400, 		// Width in px
+		canvasHeight: 	400,		// Height in px
+		gridSquares: 	100,		// Number of units in grid
+		canvasUnit: 	0			// One canvas unit in px (calculated bwith gridsize)
 	}
 
 	/**************************************************
@@ -62,7 +63,7 @@ function (io, Keys, Player) {
 		localPlayer = new Player(startX, startY, randomCol);
 
 		// Initialise socket connection
-		socket = io.connect("http://10.0.0.14:8000");
+		socket = io.connect('http://' + s.serverIP + ':8000');
 
 		// Initialise remote players array
 		remotePlayers = [];
