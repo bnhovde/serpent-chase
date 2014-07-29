@@ -1,11 +1,12 @@
 
 define([
   'socket',
-  'modules/Keys',
-  'modules/Player'
+  'settings',
+  'models/Keys',
+  'models/Player'
 ],
 
-function (io, Keys, Player) {
+function (io, settings, Keys, Player) {
 
   'use strict';
 
@@ -21,14 +22,6 @@ function (io, Keys, Player) {
 		socket,			// Socket connection
 		s; 				// Settings short
 
-	// Setup base variables
-	var settings = s = {
-		serverIP: 		'10.0.0.14',	// IP address of node server
-		canvasWidth: 	400, 		// Width in px
-		canvasHeight: 	400,		// Height in px
-		gridSquares: 	100,		// Number of units in grid
-		canvasUnit: 	0			// One canvas unit in px (calculated bwith gridsize)
-	}
 
 	/**************************************************
 	** GAME INITIALISATION
@@ -36,6 +29,8 @@ function (io, Keys, Player) {
 
 	function init() {
 
+		// Import settings
+		s = settings;
 
 		// Declare the canvas and rendering context
 		canvas = document.getElementById("gameCanvas");
@@ -173,11 +168,14 @@ function (io, Keys, Player) {
 	**************************************************/
 
 	function animate() {
-		update();
-		draw();
 
 		// Request a new animation frame using Paul Irish's shim
+		// placing the rAF *before* the render() to assure as close to
+		// 60fps with the setTimeout fallback.
 		window.requestAnimFrame(animate);
+
+		update();
+		draw();
 	};
 
 

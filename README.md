@@ -19,5 +19,5 @@ Please note: This game is under heavy development.
 - Change serverIP in game.js config to your local IP (or your server if deploying)
 
 ## Running
-- run 'node game.js' in the root dir
+- run '''node game.js''' in the root dir
 - visit [serverIP]/[gamedir]/public/
