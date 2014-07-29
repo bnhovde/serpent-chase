@@ -1,0 +1,25 @@
+{
+  "name": "snakesnake",
+  "version": "0.0.0",
+  "homepage": "https://github.com/bnhovde/snakesnake",
+  "authors": [
+    "bard <bnhovde@gmail.com>"
+  ],
+  "description": "Snake multiplayer node/socket game",
+  "main": "public/index.html",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.14"
+  }
+}
