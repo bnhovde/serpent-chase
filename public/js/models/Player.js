@@ -1,4 +1,10 @@
-define([], function () {
+
+define([
+	'models/Bubble',
+	'settings'
+], 
+
+function (Bubble, settings) {
 
   	'use strict';
 
@@ -12,6 +18,9 @@ define([], function () {
 			id,
 			color = col,
 			moveAmount = 2;
+
+		// Initialise the player textBubble
+		var textBubble = new Bubble(id, '');
 		
 		// Getters and setters
 		var getX = function() {
@@ -60,6 +69,16 @@ define([], function () {
 			ctx.fillRect(x-5, y-5, 10, 10);
 		};
 
+		// Draw text bubble (for local player)
+		var drawBubbleLocal = function(ctx) {
+			textBubble.drawLocal(ctx, x - 5, y - 20);
+		};
+
+		// Draw text bubble
+		var drawBubble = function(ctx) {
+			textBubble.draw(ctx, x - 5, y - 20);
+		};
+
 		// Define which variables and methods can be accessed
 		return {
 			getX: getX,
@@ -68,7 +87,10 @@ define([], function () {
 			setX: setX,
 			setY: setY,
 			update: update,
-			draw: draw
+			draw: draw,
+			drawBubble: drawBubble,
+			drawBubbleLocal: drawBubbleLocal,
+			textBubble: textBubble
 		}
 	};
 

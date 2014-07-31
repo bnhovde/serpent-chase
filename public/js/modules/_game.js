@@ -1,14 +1,14 @@
 
 define([
-  'socket',
-  'settings',
-  'models/Keys',
-  'models/Player'
+	'socket',
+	'settings',
+	'models/Keys',
+	'models/Player'
 ],
 
 function (io, settings, Keys, Player) {
 
-  'use strict';
+  	'use strict';
 
 	/**************************************************
 	** GAME VARIABLES & SETTINGS
@@ -92,12 +92,16 @@ function (io, settings, Keys, Player) {
 
 		// Player removed message received
 		socket.on("remove player", onRemovePlayer);
+
+		// Player removed message received
+		socket.on("text changed", onTextChanged);
 	};
 
 	// Keyboard key down
 	function onKeydown(e) {
 		if (localPlayer) {
 			keys.onKeyDown(e);
+			localPlayer.textBubble.setText(e);
 		};
 	};
 
@@ -148,6 +152,22 @@ function (io, settings, Keys, Player) {
 		movePlayer.setY(data.y);
 	};
 
+	// Update player balloonText
+	function onTextChanged(data) {
+		var textPlayer = playerById(data.id);
+
+		// Player not found
+		if (!textPlayer) {
+			console.log("Player not found: " + data.id);
+			return;
+		};
+
+		console.log('text has changed for someone! ' + data.text);
+
+		// Update player position
+		textPlayer.textBubble.setPrevText(data.text);
+	};
+
 	// Remove player
 	function onRemovePlayer(data) {
 		var removePlayer = playerById(data.id);
@@ -189,6 +209,15 @@ function (io, settings, Keys, Player) {
 			// Send local player data to the game server
 			socket.emit("move player", {x: localPlayer.getX(), y: localPlayer.getY()});
 		};
+
+		// Check if local player text has been submitted (enter pressed)
+		if (localPlayer.textBubble.checkSubmitted()) {
+			console.log('text changed triggered!');
+			socket.emit("text changed", {text: localPlayer.textBubble.getText(), prevText: localPlayer.textBubble.getPrevText()});
+			localPlayer.textBubble.resetText();
+		}
+
+
 	};
 
 
@@ -203,11 +232,16 @@ function (io, settings, Keys, Player) {
 		// Draw the local player
 		localPlayer.draw(ctx);
 
+		// Draw the local player speechBubble
+		localPlayer.drawBubbleLocal(ctx);
+
 		// Draw the remote players
 		var i;
 		for (i = 0; i < remotePlayers.length; i++) {
 			remotePlayers[i].draw(ctx);
+			remotePlayers[i].drawBubble(ctx);
 		};
+
 	};
 
 

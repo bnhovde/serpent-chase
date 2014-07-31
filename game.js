@@ -49,6 +49,9 @@ function onSocketConnection(client) {
 
 	// Listen for move player message
 	client.on("move player", onMovePlayer);
+
+	// Listen for text changed message
+	client.on("text changed", onTextChanged);
 };
 
 // Socket client has disconnected
@@ -110,6 +113,25 @@ function onMovePlayer(data) {
 
 	// Broadcast updated position to connected socket clients
 	this.broadcast.emit("move player", {id: movePlayer.id, x: movePlayer.getX(), y: movePlayer.getY()});
+};
+
+// Player text has changed
+function onTextChanged(data) {
+
+	// Find player in array
+	var textPlayer = playerById(this.id);
+
+	// Player not found
+	if (!textPlayer) {
+		console.log("Player not found: "+this.id);
+		return;
+	};
+
+	// Update player texts
+	textPlayer.setText(data.text);
+
+	// Broadcast updated position to connected socket clients
+	this.broadcast.emit("text changed", {id: textPlayer.id, text: textPlayer.getText()});
 };
 
 

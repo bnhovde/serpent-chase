@@ -17,18 +17,18 @@ define([], function () {
 				c = e.keyCode;
 			switch (c) {
 				// Controls
-				case 37: // Left
+				case 37: 	// Left
 					that.left = true;
 					break;
-				case 38: // Up
+				case 38: 	// Up
 					that.up = true;
 					break;
-				case 39: // Right
+				case 39: 	// Right
 					that.right = true; // Will take priority over the left key
 					break;
-				case 40: // Down
+				case 40: 	// Down
 					that.down = true;
-					break;
+					break;				
 			};
 		};
 		
